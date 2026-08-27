@@ -9,9 +9,9 @@ let nextId = 2;
 export const userRoutes = new Elysia({ prefix: "/users" })
   .get("/", () => users)
 
-  .get("/:id", ({ params, error }) => {
+  .get("/:id", ({ params, status }) => {
     const user = users.find((u) => u.id === Number(params.id));
-    return user ?? error(404, { message: "User not found" });
+    return user ?? status(404, { message: "User not found" });
   })
 
   .post(
@@ -29,9 +29,9 @@ export const userRoutes = new Elysia({ prefix: "/users" })
     }
   )
 
-  .delete("/:id", ({ params, error }) => {
+  .delete("/:id", ({ params, status }) => {
     const idx = users.findIndex((u) => u.id === Number(params.id));
-    if (idx === -1) return error(404, { message: "User not found" });
+    if (idx === -1) return status(404, { message: "User not found" });
     const [deleted] = users.splice(idx, 1);
     return { deleted };
   });
